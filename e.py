@@ -25,6 +25,8 @@ def isinit(name): return name == 'init' or name == 'deinit'
 
 def isidentifier(id): return re.match('^[A-Za-z_][A-Za-z0-9_]*$', id)
 
+def escape_spc(string): return string.replace(" ", "\ ")
+
 ecommands = 'eh el em ei eq ep erp eep es en ev ec ex'.split()
 def isreserved(s): return s in ecommands + [ 'e%d' % i for i in range(100) ]
 
@@ -55,9 +57,9 @@ class BourneShell:
   def alias(self, name, value):
     testpath = os.path.realpath(os.path.expanduser(value))
     if os.path.isdir(testpath):
-      stdout(self.alias_fmt % (name, 'cd "%s"' % value))
+      stdout(self.alias_fmt % (name, 'cd "%s"' % escape_spc(value)))
     else:
-      stdout(self.alias_fmt % (name, value))
+      stdout(self.alias_fmt % (name, escape_spc(value)))
     
   def echo(self, s):
     stdout("echo '%s';\n" % s)
@@ -66,7 +68,7 @@ class BourneShell:
     stdout('typeset -f %s >/dev/null && unset -f %s\n' % (name, name))
 
   def eval_alias(self, name, value):
-    stdout('%s() {\n  eval "$(%s/e.py %s $*)"\n}\n' % (name, self.e.home, value))
+    stdout('%s() {\n  eval "$(%s/e.py %s $*)"\n}\n' % (name, escape_spc(self.e.home), value))
 
   def setenv_alias(self, name, value):
     self.setenv(name, value)
