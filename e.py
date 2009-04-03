@@ -320,6 +320,8 @@ class E:
     for command in ecommands:
       shell.eval_alias(command, command)
 
+    self.new_project("default")
+
     # add projects in alphabetical order, then the current project
     for name in self.project_names():
       project = self.projects[name]
