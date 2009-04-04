@@ -476,6 +476,8 @@ class E:
     if len(self.argv):
       value = ' '.join(sys.argv)
     self.current.slot_store(slot, name, value.strip())
+    self.update_vars()
+    self.current.add_environment()
 
   def en(self):
     if len(self.argv) < 1:
