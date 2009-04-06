@@ -13,7 +13,7 @@ CY="\x1b[36;01m"
 
 MAX_SLOTS = 100
 
-def hostname(): return os.popen('hostname -s').read().strip()
+def hostname(): return os.popen('hostname | cut -d . -f 1').read().strip()
 
 def stdout(s): sys.stdout.write(s)
 
@@ -66,7 +66,7 @@ class BourneShell:
     stdout('typeset -f %s >/dev/null && unset -f %s\n' % (name, name))
 
   def eval_alias(self, name, value):
-    stdout('%s() {\n  eval "$(%s/e.py %s $*)"\n}\n' % (name, self.e.home, value))
+    stdout('%s() {\n  eval "$(%s/e.py %s $*)"\n}\n' % (name, self.e.home.replace(" ", "\ ") , value))
 
   def setenv_alias(self, name, value):
     self.setenv(name, value)
