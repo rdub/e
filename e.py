@@ -59,7 +59,7 @@ class BourneShell:
     if os.path.isdir(testpath):
       stdout(self.alias_fmt % (name, 'cd "%s"' % escape_spc(value)))
     else:
-      stdout(self.alias_fmt % (name, escape_spc(value)))
+      stdout(self.alias_fmt % (name, value))
     
   def echo(self, s):
     stdout("echo '%s';\n" % s)
