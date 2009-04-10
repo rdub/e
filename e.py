@@ -467,7 +467,7 @@ class E:
       if not self.projects.has_key(name):
         self.projects[name] = Project(self, name)
     self.projects[name].delete_environment()
-    fname = self.home + '/' + name + '.project'
+    fname = escape_spc(self.home) + '/' + name + '.project'
     stdout('%s %s;ei\n' % (os.environ['EDITOR'], fname))
 
   def es(self):
